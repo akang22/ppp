@@ -1,16 +1,30 @@
+nu-dl
+-[ ] webscrape library getting nu working
+-[ ] (smallproj) get smart search of nu name and list it
+-[ ] (smallproj) algorithm for different translators
+
+
+backend
+-[ ] basic api setup (this route calls this function)
+-[ ] HTTP decorators
+-[ ] parameter decorators
+-[ ] auth decorators
+-[ ] (medproj) testing library
+-[ ] (bigproj) simple sql db
+-[ ] (bigproj) simple caching
+-[ ] (medproj) logging library
+
 sre
 -[x] basic hankel-catalan matrix generator
 -[x] matrix reducer to reduce the catalan of the odds to the sum of squares
--[ ] modify to make sure they are squares
--[ ] express sum in terms of matrix multiplication. Represent coefficients as vector.
--[ ] use the above in the proof that all odd cofficients are 0.
--[ ] modify to find the maximum with regards to evens
+-[x] modify to make sure they are squares
+-[x] express sum in terms of matrix multiplication. Represent coefficients as vector.
+-[x] use the above in the proof that all odd cofficients are 0.
+-[ ] print formula for even for use in desmos.
+-[ ] find max using decomposition and smart eigenvalue finding
 
 ast
 -[x] basic operation nodes
 -[x] basic visitor template
 -[ ] basic evaluation and simplification visitor
 -[ ] parser
-
-
-

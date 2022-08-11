@@ -15,7 +15,7 @@ def catalan_matrix(size):
         raise Exception('Need to compute more catalan numbers for matrix size')
     return [catalans[i:i+size] for i in range(size)]
 
-def row_subtract(mat, val, i, edit_index):
+def row_subtract(mat, val, i, mult, edit_index):
     for j, temp in enumerate(val):
         if temp != 0:
             break
@@ -28,15 +28,13 @@ def row_subtract(mat, val, i, edit_index):
     if i < j:
         return mat
 
-    first = val[i]
-    first_edit = mat[edit_index][j]
-    if first != 1:
+    if val[i] != 1:
         print_matrix(mat)
         print(f"Row to edit: {mat[index]}")
         print(f"Row edit value: {val}")
         raise Exception('For some reason first is not 1.') 
 
-    mat[edit_index] = [a - b * first_edit for a, b in zip(mat[edit_index], val)]
+    mat[edit_index] = [a - b*mult for a, b in zip(mat[edit_index], val)]
     return mat
 
 def row_reduce(mat, i):
@@ -44,7 +42,7 @@ def row_reduce(mat, i):
         if val != 0:
             break
     for ind in range(i + 1, len(mat)):
-        row_subtract(mat, mat[i], first_ind, ind)
+        row_subtract(mat, mat[i], first_ind, mat[i][ind], ind)
 
 def reduce(size):
     mat = catalan_matrix(size)
