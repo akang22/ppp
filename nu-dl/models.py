@@ -1,9 +1,10 @@
-from scrape import NovelUpdatesBase
+from scrape import NovelUpdatesBase, SoupGeneral
 
 class NUInfo:
     def __init__(self, link):
-        tot_pages = 
+        soup = SoupGeneral.get_soup(link)
 
+        self.tot_pages = NovelUpdatesBase.get_url_pages(soup)
         self.links = NovelUpdatesBase.get_urls(soup)
         self.total_chapters = 0
         self.translated_up_to = 0
