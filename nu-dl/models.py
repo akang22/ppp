@@ -1,21 +1,22 @@
 from scrape import NovelUpdatesBase, SoupGeneral
 
+class TranslatedLinks:
+    def __init__(self, link, index, ):
+        self.link = link
+        self.index = 0
+        self.name = 'c1v1'
+        self.author = 'me'
+
 class NUInfo:
     def __init__(self, link):
-        soup = SoupGeneral.get_soup(link)
+        self.soup = SoupGeneral.get_soup(link)
 
-        self.tot_pages = NovelUpdatesBase.get_url_pages(soup)
+        tot_pages = NovelUpdatesBase.get_pages_count(soup)
         self.links = NovelUpdatesBase.get_urls(soup)
         self.total_chapters = 0
         self.translated_up_to = 0
         self.original_lang = 'japanese'
         self.original_src = ''
 
-class TranslatedLinks:
-    def __init__(self, link):
-        self.link = link
-        self.index = 0
-        self.name = 'c1v1'
-        self.author = 'me'
 
 
