@@ -23,7 +23,7 @@ def catch(func, *args, ExceptionType=Exception, handle=lambda e: e, **kwargs):
 class SoupGeneral:
     @staticmethod
     def get_soup(link, page: int = None):
-        if page != None:
+        if page is not None:
             link += f"?pg={page}"
         req = Request(link, headers={"User-Agent": "Mozilla/5.0"})
         page = urlopen(req).read()
