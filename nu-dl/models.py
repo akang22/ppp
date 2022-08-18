@@ -1,7 +1,10 @@
+"""Basic classes for use in application. Base API for scraping."""
 from scrape import NovelUpdatesBase, SoupGeneral
 
 
-class TranslatedLinks:
+class TranslatedLink:
+    """Class representing an outbound link and metadata."""
+
     def __init__(
         self,
         link,
@@ -14,6 +17,8 @@ class TranslatedLinks:
 
 
 class NUInfo:
+    """Class which gets information about a single light novel on NU."""
+
     def __init__(self, link):
         self.soup = SoupGeneral.get_soup(link)
 

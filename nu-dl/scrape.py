@@ -1,31 +1,33 @@
+"""Provides static functions to parse HTML"""
 import re
 from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup
 import models
 
-# move to utils later
+# Following functions/classes aren't really scraping, could be moved to utils folder
 
 
 def filtersoup(**soup_identifiers):
-    """Decorator to filter BeautifulSoup before function."""
+    """Decorator to filter BeautifulSoup html."""
     return lambda func: lambda soup, **kwargs: func(
         soup.find(**soup_identifiers), *kwargs
     )
 
 
 def catch(func, *args, ExceptionType=Exception, handle=lambda e: e, **kwargs):
+    """Helper function to handle exceptions in list comprehension."""
     try:
         return func(*args, **kwargs)
     except ExceptionType as e:
         return handle(e)
 
 
-# end utils
-
-
 class SoupGeneral:
+    """Soup utility functions related to Soup which don't involve scraping."""
+
     @staticmethod
     def get_soup(link, page: int = None):
+        """"""
         if page is not None:
             link += f"?pg={page}"
         req = Request(link, headers={"User-Agent": "Mozilla/5.0"})
@@ -34,9 +36,12 @@ class SoupGeneral:
 
 
 class NovelUpdatesBase:
+    """Scraping functions for base novelupdates website"""
+
     @staticmethod
     @filtersoup(class_="digg_pagination")
     def get_pages_count(soup):
+        """Get count of table pages on website."""
         return max(
             [
                 catch(
@@ -52,6 +57,7 @@ class NovelUpdatesBase:
     @staticmethod
     @filtersoup(id="myTable")
     def get_urls(soup):
+        """Return list of link objects to translated chapters."""
         for row in soup.findAll("tr"):
             # make info
             pass
@@ -66,4 +72,5 @@ class NovelUpdatesBase:
 
     @staticmethod
     def get_lang(soup):
+        """Return language of article"""
         pass
