@@ -1,5 +1,5 @@
 """Basic classes for use in application. Base API for scraping."""
-from scrape import NovelUpdatesBase, SoupGeneral
+import scrape
 
 
 class TranslatedLink:
@@ -22,10 +22,10 @@ class NUInfo:
     """Class which gets information about a single light novel on NU."""
 
     def __init__(self, link):
-        self.soup = SoupGeneral.get_soup(link)
+        self.soup = scrape.SoupGeneral.get_soup(link)
 
-        tot_pages = NovelUpdatesBase.get_pages_count(self.soup)
-        self.links = NovelUpdatesBase.get_urls(self.soup)
+        tot_pages = scrape.NovelUpdatesBase.get_pages_count(self.soup)
+        self.links = scrape.NovelUpdatesBase.get_urls(self.soup)
         self.total_chapters = 0
         self.translated_up_to = 0
         self.original_lang = "japanese"
