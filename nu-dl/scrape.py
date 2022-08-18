@@ -7,7 +7,10 @@ import models
 
 
 def filtersoup(**soup_identifiers):
-    return lambda func: lambda soup: func(soup.find(**soup_identifiers))
+    """Decorator to filter BeautifulSoup before function."""
+    return lambda func: lambda soup, **kwargs: func(
+        soup.find(**soup_identifiers), *kwargs
+    )
 
 
 def catch(func, *args, ExceptionType=Exception, handle=lambda e: e, **kwargs):
