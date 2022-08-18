@@ -55,20 +55,22 @@ class NovelUpdatesBase:
         )
 
     @staticmethod
+    def _parse_row(tr):
+        tds = tr.findAll("td")
+        date = str(tds[0].string)
+        author = str(tds[1].string)
+        a = tds[2].find(
+            "a", attrs={"href": re.compile("^//www.novelupdates.com/extnu")}
+        )
+        link = str(a.get("href"))
+        name = str(a.string)
+        return models.TranslatedLink(link, name, author, date)
+
+    @staticmethod
     @filtersoup(id="myTable")
     def get_urls(soup):
         """Return list of link objects to translated chapters."""
-        for row in soup.findAll("tr"):
-            # make info
-            pass
-
-        links = [
-            link.get("href")
-            for link in soup.findAll(
-                "a", attrs={"href": re.compile("^//www.novelupdates.com/extnu")}
-            )
-        ]
-        return links
+        return [NovelUpdatesBase._parse_row(tr) for tr in soup.findAll("tr")]
 
     @staticmethod
     def get_lang(soup):

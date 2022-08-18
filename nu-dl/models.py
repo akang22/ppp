@@ -8,12 +8,14 @@ class TranslatedLink:
     def __init__(
         self,
         link,
-        index,
+        name,
+        author,
+        date,
     ):
         self.link = link
-        self.index = 0
-        self.name = "c1v1"
-        self.author = "me"
+        self.name = name
+        self.author = author
+        self.date = date
 
 
 class NUInfo:
