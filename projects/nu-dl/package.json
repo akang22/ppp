@@ -1,0 +1,8 @@
+{
+  "name": "nu-dl",
+  "version": "1.0.0",
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "@mozilla/readability": "^0.4.2"
+  }
+}
