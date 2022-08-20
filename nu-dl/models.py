@@ -25,8 +25,17 @@ class NUInfo:
         self.soup = scrape.SoupGeneral.get_soup(link)
 
         tot_pages = scrape.NovelUpdatesBase.get_pages_count(self.soup)
-        self.links = scrape.NovelUpdatesBase.get_urls(self.soup)
-        self.total_chapters = 0
-        self.translated_up_to = 0
-        self.original_lang = "japanese"
+
+        # TODO: multithread
+        self.links = reversed([
+            chap_link
+            for page_number in range(1, tot_pages + 1)
+            for chap_link in scrape.NovelUpdatesBase.get_urls(
+                scrape.SoupGeneral.get_soup(link, page=page_number)
+            )
+        ])
+
+        self.chapter_count = len(links)
+        self.complete = scrape.NovelUpdatesBase.get_status(self.soup)
+        self.original_lang = scrape.NovelUpdatesBase.get_language(soup)
         self.original_src = ""

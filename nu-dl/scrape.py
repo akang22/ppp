@@ -7,10 +7,10 @@ import models
 # Following functions/classes aren't really scraping, could be moved to utils folder
 
 
-def filtersoup(**soup_identifiers):
+def filtersoup(name = None, **soup_identifiers):
     """Decorator to filter BeautifulSoup html."""
     return lambda func: lambda soup, **kwargs: func(
-        soup.find(**soup_identifiers), *kwargs
+        soup.find(name, **soup_identifiers), *kwargs
     )
 
 
@@ -67,12 +67,16 @@ class NovelUpdatesBase:
         return models.TranslatedLink(link, name, author, date)
 
     @staticmethod
-    @filtersoup(id="myTable")
+    @filtersoup("table", id="myTable")
     def get_urls(soup):
         """Return list of link objects to translated chapters."""
-        return [NovelUpdatesBase._parse_row(tr) for tr in soup.findAll("tr")]
+        return [NovelUpdatesBase._parse_row(tr) for tr in soup.tbody.findAll("tr")]
 
     @staticmethod
-    def get_lang(soup):
-        """Return language of article"""
+    def get_status(soup):
+        """Return status of translation"""
+
+    @staticmethod
+    def get_language(soup):
+        """Return original language of translation."""
         pass
