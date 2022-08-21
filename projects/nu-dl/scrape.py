@@ -7,7 +7,7 @@ import models
 # Following functions/classes aren't really scraping, could be moved to utils folder
 
 
-def filtersoup(name = None, **soup_identifiers):
+def filtersoup(name=None, **soup_identifiers):
     """Decorator to filter BeautifulSoup html."""
     return lambda func: lambda soup, **kwargs: func(
         soup.find(name, **soup_identifiers), *kwargs

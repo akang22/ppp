@@ -35,7 +35,7 @@ class NUInfo:
             )
         ])
 
-        self.chapter_count = len(links)
+        self.chapter_count = len(self.links)
         self.complete = scrape.NovelUpdatesBase.get_status(self.soup)
-        self.original_lang = scrape.NovelUpdatesBase.get_language(soup)
+        self.original_lang = scrape.NovelUpdatesBase.get_language(self.soup)
         self.original_src = ""
