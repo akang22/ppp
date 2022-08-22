@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import json
 import os
 import re
@@ -29,30 +30,27 @@ def slugify(value, allow_unicode=False):
     return re.sub(r"[-\s]+", "-", value).strip("-_")
 
 
+def normalize_unicode(string):
+    """Converts stringed hex escapes (\\xe2\\x80\\x94) to python unicode"""
+    # TODO: still some unicode errors.
+    return bytes(string, "raw_unicode_escape").decode("utf-8", "strict")
+
+
 def parse_article(link, refresh_time=60):
     """Interface with readabilityjs to extract article."""
     # Loosely based off 'https://github.com/alan-turing-institute/ReadabiliPy/blob/master/readabilipy/simple_json.py'.
     req = Request(link, headers={"User-Agent": "Mozilla/5.0"})
-    html = str(urlopen(req).read())
+    html = str(urlopen(req).read(), )
     temp_path = os.path.join(tempfile.gettempdir(), "nudltoreadabilityjsinterface")
     file_name = slugify(link)
     finished_file = os.path.join(temp_path, file_name + ".json")
-    return_json = {
-        "title": None,
-        "byline": None,
-        "date": None,
-        "content": None,
-        "plain_content": None,
-        "plain_text": None,
-    }
 
     if (
         os.path.exists(finished_file)
         and os.path.getmtime(finished_file) + refresh_time * 1000 > time.time()
     ):
-        with open(finished_file, "r") as file:
-            return_json.update(json.loads(file.read()))
-        return return_json
+        with open(finished_file, "r", encoding='utf-8') as file:
+            return normalize_unicode(file.read())
     
     os.makedirs(temp_path, exist_ok=True)
 
@@ -68,7 +66,5 @@ def parse_article(link, refresh_time=60):
     # yes I know this is dupliicated from above.
     # This is just a temporary solution until i port readability over to python in its own ppp.
     # yes, there's nothing more permanent than a temporary solution. Check git blame.
-    with open(finished_file, "r") as file:
-        return_json.update(json.loads(file.read()))
-
-    return return_json
+    with open(finished_file, "r", encoding='utf-8') as file:
+        return normalize_unicode(file.read())

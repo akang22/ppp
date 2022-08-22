@@ -1,5 +1,6 @@
 nu-dl
--[ ] webscrape library getting nu working
+-[x] webscrape library getting nu working
+-[ ] turn text into epub, format (titlepage, chapterpage, etc)
 -[ ] (smallproj) get smart search of nu name and list it
 -[ ] (smallproj) algorithm for different translators
 

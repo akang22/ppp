@@ -1,16 +1,22 @@
 import { Readability } from "@mozilla/readability";
 import { readFileSync, writeFileSync } from "fs";
-import { JSDOM } from "jsdom";
+import jsdom, { JSDOM } from "jsdom";
 
-function main() {
+async function main() {
     const args = process.argv;
     if (args.length < 3) {
         throw new Error(`parse_article: Less than 3 arguments passed: ${args}`);
     }
-    const html_file = readFileSync(args[2], {encoding: "utf-8"}).trim();
-    const html_document = new JSDOM(html_file).window.document;
-    const ret = new Readability(html_document).parse();
-    writeFileSync(`${args[2]}.json`, JSON.stringify(ret));
+    const virtualConsole = new jsdom.VirtualConsole();
+    virtualConsole.on("error", () => {
+        // throw away all errors.
+        // yeah this is pretty bad. I think they have poor css support (which doeesn't matter imo)
+        // when i port to python i'll get rid of all js/css after render.
+    });
+    const html_document = (await JSDOM.fromFile(args[2], { virtualConsole })).window.document;
+    const u_html_content = new Readability(html_document).parse().textContent.trim();
+    const decoded_string = JSON.parse('"' + u_html_content.replace(/([^\\]|^)\\x/g, '$1\\u00') + '"');
+    writeFileSync(`${args[2]}.json`, JSON.stringify(decoded_string), {encoding: "utf8"});
 }
 
-main();
+await main();
