@@ -16,11 +16,7 @@ backend
 -[ ] (medproj) logging library
 
 sre
--[x] basic hankel-catalan matrix generator
--[x] matrix reducer to reduce the catalan of the odds to the sum of squares
--[x] modify to make sure they are squares
--[x] express sum in terms of matrix multiplication. Represent coefficients as vector.
--[x] use the above in the proof that all odd cofficients are 0.
+-[x] try holders ineqaulty
 -[ ] print formula for even for use in desmos.
 -[ ] find max using decomposition and smart eigenvalue finding
 
@@ -29,3 +25,8 @@ ast
 -[x] basic visitor template
 -[ ] basic evaluation and simplification visitor
 -[ ] parser
+
+future projects (lol)
+-[ ] chess and variants (data based rules)
+-[ ] https://esolangs.org/wiki/OISC; implement each and then write hello world
+

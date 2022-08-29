@@ -6,7 +6,7 @@ def print_matrix(matrix):
         print('\t'.join(map(str, row)))
     print(''.join('-' * 8 for i in matrix))
 
-max_cat = 21
+max_cat = 100
 
 catalans = [math.comb(2*i, i) // (i+1) for i in range(1, max_cat)]
 
@@ -52,4 +52,48 @@ def reduce(size):
         print_matrix(mat)
     return mat
 
+class ApCoeff:
+    def __init__(self, power, coeff):
+        self.power = power
+        self.coeff = coeff
+
+    def eval(self):
+        return catalans[self.power // 2] * self.coeff
+
+    def mult(self, ap):
+        return ApCoeff(self.power + ap.power, self.coeff * ap.coeff)
+
+class Equation:
+    def __init__(self, apcoeffs):
+        self.aps = apcoeffs
+
+    def mult(self, aps):
+        self.aps = [f.mult(s) for f in self.aps for s in aps]
+        self.simplify_like()
+
+    def simplify_like(self):
+        d = {}
+        for ap in self.aps:
+            if ap.power in d:
+                d[ap.power].coeff += ap.coeff
+            else:
+                d[ap.power] = ap
+        self.aps = list(d.values())
+
+    def eval(self):
+        return abs(sum([ap.eval() for ap in self.aps]))
+
+
+def holders_inequality_main(max_w):
+    mult_eq = [ApCoeff(2, -4), ApCoeff(4, 1)]
+    eq = Equation([ApCoeff(2, -4), ApCoeff(4, 1)])
+    left_side = 2
+    a = "["
+
+    for i in range(1, max_w):
+        a += f"({i + 1}, \\sqrt[{i}]{{\\frac{{{left_side}}}{{{eq.eval()}}}}}),"
+        left_side *= 2
+        eq.mult(mult_eq)
+
+    return a + "]"
 
