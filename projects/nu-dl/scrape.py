@@ -1,6 +1,7 @@
 """Provides static functions to parse HTML"""
 import re
 from urllib.request import Request, urlopen
+from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 import models
 
@@ -39,6 +40,18 @@ class NovelUpdatesBase:
     """Scraping functions for base novelupdates website"""
 
     @staticmethod
+    def parse_id(url):
+        """Get unique novel identifier from url."""
+        path = urlparse(url).path
+        return path.split("/")[2]
+
+    @staticmethod
+    @filtersoup(class_="seriestitlenu")
+    def get_title(soup):
+        """Get title of ln from url."""
+        return soup.string
+
+    @staticmethod
     @filtersoup(class_="digg_pagination")
     def get_pages_count(soup):
         """Get count of table pages on website."""
@@ -64,7 +77,7 @@ class NovelUpdatesBase:
         )
         link = str(a.get("href"))
         name = str(a.string)
-        return models.TranslatedLink(link, name, author, date)
+        return models.TranslatedLink(f"https:{link}", name, author, date)
 
     @staticmethod
     @filtersoup("table", id="myTable")

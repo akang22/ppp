@@ -1,5 +1,5 @@
 nu-dl
--[x] webscrape library getting nu working
+-[ ] fix unicode bug on chapter 78. get text into smth that will work in html.
 -[ ] turn text into epub, format (titlepage, chapterpage, etc)
 -[ ] (smallproj) get smart search of nu name and list it
 -[ ] (smallproj) algorithm for different translators
