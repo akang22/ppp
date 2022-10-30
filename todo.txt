@@ -6,6 +6,7 @@ nu-dl
 
 
 backend
+POSTPONED (lol)
 -[ ] basic api setup (this route calls this function)
 -[ ] HTTP decorators
 -[ ] parameter decorators
@@ -16,9 +17,7 @@ backend
 -[ ] (medproj) logging library
 
 sre
--[x] try holders ineqaulty
--[ ] print formula for even for use in desmos.
--[ ] find max using decomposition and smart eigenvalue finding
+-[ ] function with second degree
 
 ast
 -[x] basic operation nodes
