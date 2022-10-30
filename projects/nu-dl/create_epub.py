@@ -2,8 +2,18 @@ from ebooklib import epub
 from models import NUInfo
 
 
-def create_chapter(link):
-    pass
+def pad_zero(num, max_len):
+    return "0" * (max_len - len(str(num))) + str(num)
+
+
+def create_chapter(link, max_len):
+    chapter = epub.EpubHtml(
+        title=link.name,
+        file_name=f"chap_{pad_zero(link.index, max_len)}_{link.name}.xhtml",
+        lang="en",
+    )
+    chapter.content = f"<p>{link.scrape_text()}</p>"
+    return chapter
 
 
 def make_epub(nuinfo: NUInfo, output="./output"):
@@ -15,7 +25,8 @@ def make_epub(nuinfo: NUInfo, output="./output"):
     book.set_language("en")
     for author in nuinfo.authors:
         book.add_author(author)
-    chapters = [create_chapter(link) for link in nuinfo.links]
+    max_len = len(str(len(chapters)))
+    chapters = [create_chapter(link, max_len) for link in nuinfo.links]
     book.toc = ()
     for chapter in chapters:
         book.add_item(chapter)
