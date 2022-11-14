@@ -69,7 +69,7 @@ class Variable:
         return self.var == var.var
 
     def __str__(self):
-        return "".join([f"({{{k}}})^{{{v}}}" for k, v in self.var.items()])
+        return "1" if not self.var else "*".join([f"({k}**{v})" for k, v in self.var.items()])
 
     def clone(self):
         return Variable(self.var.copy())
@@ -83,7 +83,7 @@ class ApCoeff:
     def __str__(self):
         if self.power % 2 == 1:
             return '0'
-        return f"({catalans[self.power // 2] * self.coeff}){str(self.var)}"
+        return f"({catalans[self.power // 2] * self.coeff}*{str(self.var)})"
 
     def __mul__(self, ap):
         return ApCoeff(self.power + ap.power, self.coeff * ap.coeff, self.var.clone() * ap.var.clone())
@@ -133,16 +133,21 @@ class Equation:
     def __repr__(self):
         return self.__str__()
 
-def second_degree():
-    a = Variable({'a': 1})
-    b = Variable({'b': 1})
-    c = Variable({'c': 1})
-    x = ApCoeff(1, 1, Variable({}))
+def print_nth_ZP(n):
+    arr = [Equation([ApCoeff(0, 1, Variable({f"x[-{i + 1}]": 1}))]) for i in range(n)]
 
-    t = Equation([x.clone(), ApCoeff(0, -1, c.clone())])
-    g = t.clone() * t.clone() * t.clone() + Equation([ApCoeff(0, 1, a.clone())]) * t.clone() * t.clone() + Equation([ApCoeff(0, 1, b.clone())]) * t.clone()
+    base_t = Equation([ApCoeff(1, 1, Variable({})),ApCoeff(0, -1, Variable({'c': 1}))])
+
+    t = base_t.clone()
+    g = Equation([])
+
+    for i in range(n):
+        g += t.clone() * arr[i]
+        t *= base_t.clone()
+    
+    g += t
     l = g.clone() * g.clone()
-    print(f"\\frac{{({g})^2}}{{{l}}}")
+    print(f"doit = lambda x: -(({g})**2)/({l})")
 
 
 
