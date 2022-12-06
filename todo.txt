@@ -16,9 +16,6 @@ POSTPONED (lol)
 -[ ] (bigproj) simple caching
 -[ ] (medproj) logging library
 
-sre
--[ ] function with second degree
-
 ast
 -[x] basic operation nodes
 -[x] basic visitor template
