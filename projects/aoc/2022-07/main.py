@@ -1,6 +1,9 @@
 from abc import ABC, abstractmethod
 from collections import deque
 
+# The reason I included this is the (imo) effective use of AST/visitor pattern, and because making some kind of shell may be something I want to explore in the future
+# TODO: convert printing to be state-independent using visitor pattern (no self.level needed).
+
 class Visitor(ABC):
     @abstractmethod
     def visit(self, obj):
@@ -163,7 +166,6 @@ def split_output(output):
     return [intify(a.split(' ', 1)) for a in output.split('\n') if a != '']
 
 def main():
-    value = ""
     with open('input.txt', 'r') as f:
         value = f.read()
     obj = Main(value)
